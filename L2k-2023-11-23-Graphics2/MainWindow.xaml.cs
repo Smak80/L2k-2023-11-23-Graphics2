@@ -26,39 +26,61 @@ namespace L2k_2023_11_23_Graphics2
         }
 
         private List<MyFigure> fList = new List<MyFigure>();
-        private MyFigure currentFigure;
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            fList.Add(new MyFigure());
-            MainCanvas.Children.Add(fList.Last().FigureShape);
-        }
+        private MyFigure? currentFigure = null;
+        private ToolType currentTool = ToolType.Ellipse;
 
-        private Point? startPoint = null;
+        private bool newFigure = true;
+
+        private Point? downPoint = null;
         private void MainCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            startPoint = e.GetPosition((IInputElement)sender);
-            if (startPoint is { } point) {
+            downPoint = e.GetPosition((IInputElement)sender);
+            currentFigure = null;
+            if (downPoint is { } point)
+            {
                 fList.ForEach(
                     f => { if (f.ContainsPoint(point)) currentFigure = f; }
                 );
+                newFigure = currentFigure == null;
+                if (newFigure)
+                {
+                    fList.Add(new MyFigure(currentTool, point));
+                    currentFigure = fList.Last();
+                    MainCanvas.Children.Add(currentFigure.FigureShape);
+                }
             }
         }
 
         private void MainCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            startPoint = null;
+            downPoint = null;
         }
 
         private void MainCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (startPoint is { } point)
+            var currentPoint = e.GetPosition((IInputElement)sender);
+            if (downPoint is { } point)
             {
-                if (currentFigure.ContainsPoint(point))
+                if (newFigure)
+                    currentFigure?.Modify(currentPoint);
+                else
                 {
-                    var currentPoint = e.GetPosition((IInputElement)sender);
-                    currentFigure.Move(point, currentPoint);
-                    startPoint = currentPoint;
+                    currentFigure?.Move(
+                        currentPoint.X - point.X, currentPoint.Y - point.Y
+                    );
+                    downPoint = currentPoint;
                 }
+            }
+        }
+
+        private void Tool_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == ToolRectangle)
+            {
+                currentTool = ToolType.Rectangle;
+            } else if (sender == ToolEllipse)
+            {
+                currentTool = ToolType.Ellipse;
             }
         }
     }

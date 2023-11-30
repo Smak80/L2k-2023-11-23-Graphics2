@@ -16,23 +16,32 @@ namespace L2k_2023_11_23_Graphics2
         public double Height => FigureShape.Height;
         public double X => FigureShape.Margin.Left;
         public double Y => FigureShape.Margin.Top;
-        public MyFigure() {
-            FigureShape = new Ellipse();
-            FigureShape.Width = 100;
-            FigureShape.Height = 100;
+
+        private Point firstPoint;
+
+        public MyFigure(
+            ToolType type,
+            Point topLeft
+        ) {
+            FigureShape = type switch
+            {
+                ToolType.Ellipse => new Ellipse(),
+                ToolType.Rectangle => new Rectangle(),
+                _ => new Rectangle()
+            };
+            firstPoint = topLeft;
+            FigureShape.Width = 0;
+            FigureShape.Height = 0;
             FigureShape.Fill = Brushes.Green;
             FigureShape.Stroke = Brushes.Blue;
             FigureShape.StrokeThickness = 4;
         }
 
-        public void Move(Point from, Point to)
+        public void Move(double deltaX, double deltaY)
         {
-            FigureShape.Margin = new Thickness(
-                FigureShape.Margin.Left + to.X - from.X,
-                FigureShape.Margin.Top + to.Y - from.Y,
-                FigureShape.Margin.Right,
-                FigureShape.Margin.Bottom
-            );
+            firstPoint.X = FigureShape.Margin.Left + deltaX;
+            firstPoint.Y = FigureShape.Margin.Top + deltaY;
+            FigureShape.Margin = new Thickness(firstPoint.X, firstPoint.Y, 0, 0);
         }
 
         public bool ContainsPoint( Point point )
@@ -41,6 +50,14 @@ namespace L2k_2023_11_23_Graphics2
                 && point.X <= X + Width
                 && point.Y >= Y
                 && point.Y <= Y + Height;
+        }
+
+        public void Modify(Point toPoint)
+        {
+            var r = new RectArea(firstPoint, toPoint);
+            FigureShape.Margin = new Thickness(r.X, r.Y, 0, 0);
+            FigureShape.Width  = r.Width;
+            FigureShape.Height = r.Height;
         }
     }
 }

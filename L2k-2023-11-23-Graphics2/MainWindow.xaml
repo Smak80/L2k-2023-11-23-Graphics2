@@ -3,16 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:L2k_2023_11_23_Graphics2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="grid1">
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Canvas x:Name="MainCanvas" Background="Beige" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove">
+        <ToolBar>
+            <Button x:Name="ToolEllipse" Content="Эллипс" Click="Tool_Click"/>
+            <Button x:Name="ToolRectangle" Content="Прямоугольник" Click="Tool_Click"/>
+        </ToolBar>
+        <Canvas Grid.Row="1" x:Name="MainCanvas" Background="White" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove">
         </Canvas>
-        <Button Content="Нарисовать" Grid.Row="1" Click="Button_Click"/>
+        <!--Button Content="Нарисовать" Grid.Row="1" Click="Button_Click"/-->
     </Grid>
 </Window>
