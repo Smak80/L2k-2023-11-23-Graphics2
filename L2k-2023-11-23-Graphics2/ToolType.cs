@@ -8,6 +8,6 @@ namespace L2k_2023_11_23_Graphics2
 {
     public enum ToolType
     {
-        Rectangle, Ellipse
+        Rectangle, Ellipse, Pen,
     }
 }

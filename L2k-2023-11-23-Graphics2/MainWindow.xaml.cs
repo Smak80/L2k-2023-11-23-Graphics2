@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -81,6 +82,9 @@ namespace L2k_2023_11_23_Graphics2
             } else if (sender == ToolEllipse)
             {
                 currentTool = ToolType.Ellipse;
+            } else if (sender == ToolPen)
+            {
+                currentTool = ToolType.Pen;
             }
         }
     }

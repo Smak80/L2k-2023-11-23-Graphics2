@@ -13,6 +13,7 @@
         <ToolBar>
             <Button x:Name="ToolEllipse" Content="Эллипс" Click="Tool_Click"/>
             <Button x:Name="ToolRectangle" Content="Прямоугольник" Click="Tool_Click"/>
+            <Button x:Name="ToolPen" Content="Карандаш" Click="Tool_Click"/>
         </ToolBar>
         <Canvas Grid.Row="1" x:Name="MainCanvas" Background="White" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove">
         </Canvas>

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -25,13 +21,23 @@ namespace L2k_2023_11_23_Graphics2
         ) {
             FigureShape = type switch
             {
+                ToolType.Pen => new Polyline(),
                 ToolType.Ellipse => new Ellipse(),
                 ToolType.Rectangle => new Rectangle(),
                 _ => new Rectangle()
             };
             firstPoint = topLeft;
-            FigureShape.Width = 0;
-            FigureShape.Height = 0;
+            if (type != ToolType.Pen)
+            {
+                FigureShape.Width = 0;
+                FigureShape.Height = 0;
+            } else
+            {
+                ((Polyline)FigureShape).Points.Add(topLeft);
+                FigureShape.StrokeStartLineCap = PenLineCap.Round;
+                FigureShape.StrokeEndLineCap = PenLineCap.Round;
+                FigureShape.StrokeLineJoin = PenLineJoin.Round;
+            }
             FigureShape.Fill = Brushes.Green;
             FigureShape.Stroke = Brushes.Blue;
             FigureShape.StrokeThickness = 4;
@@ -54,9 +60,29 @@ namespace L2k_2023_11_23_Graphics2
 
         public void Modify(Point toPoint)
         {
+            if (FigureShape is Polyline)
+            {
+                ModifyLine(toPoint);
+            }
+            else
+            {
+                ModifyClosedFigure(toPoint);
+            }
+        }
+
+        private void ModifyLine(Point toPoint)
+        {
+            if (FigureShape is Polyline pl)
+            {
+                pl.Points.Add(toPoint);
+            }
+        }
+
+        private void ModifyClosedFigure(Point toPoint)
+        {
             var r = new RectArea(firstPoint, toPoint);
             FigureShape.Margin = new Thickness(r.X, r.Y, 0, 0);
-            FigureShape.Width  = r.Width;
+            FigureShape.Width = r.Width;
             FigureShape.Height = r.Height;
         }
     }
