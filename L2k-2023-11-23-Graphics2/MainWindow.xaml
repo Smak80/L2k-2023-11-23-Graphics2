@@ -14,10 +14,11 @@
         <ToolBar>
             <Button x:Name="ToolEllipse" Content="Эллипс" Click="Tool_Click"/>
             <Button x:Name="ToolRectangle" Content="Прямоугольник" Click="Tool_Click"/>
+            <Button x:Name="ToolPen" Content="Ручка" Click="Tool_Click" />
             <dialog:ColorPickerButton x:Name="BtnFillColor" Color="Green" Cursor="Hand" Width="24" Height="24"/>
             <dialog:ColorPickerButton x:Name="BtnStrokeColor" Color="Blue" Cursor="Hand" Width="24" Height="24"/>
         </ToolBar>
-        <Canvas Grid.Row="1" x:Name="MainCanvas" Background="White" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove">
+        <Canvas Grid.Row="1" x:Name="MainCanvas" Background="White" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove" MouseLeave="MainCanvas_MouseLeave">
         </Canvas>
         <!--Button Content="Нарисовать" Grid.Row="1" Click="Button_Click"/-->
     </Grid>

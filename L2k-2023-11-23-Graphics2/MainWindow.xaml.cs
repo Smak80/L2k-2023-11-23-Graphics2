@@ -87,7 +87,15 @@ namespace L2k_2023_11_23_Graphics2
             } else if (sender == ToolEllipse)
             {
                 currentTool = ToolType.Ellipse;
+            } else if (sender == ToolPen)
+            {
+                currentTool = ToolType.Pen;
             }
+        }
+
+        private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
+        {
+            downPoint = null;
         }
     }
 }

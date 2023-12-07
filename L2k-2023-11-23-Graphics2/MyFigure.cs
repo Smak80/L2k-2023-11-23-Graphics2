@@ -40,15 +40,24 @@ namespace L2k_2023_11_23_Graphics2
             {
                 ToolType.Ellipse => new Ellipse(),
                 ToolType.Rectangle => new Rectangle(),
+                ToolType.Pen => new Polyline(),
                 _ => new Rectangle()
             };
-            
-            FillColor = fillColor;
-            StrokeColor = strokeColor;
 
             firstPoint = topLeft;
-            FigureShape.Width = 0;
-            FigureShape.Height = 0;
+            if (type != ToolType.Pen)
+            {
+                FigureShape.Width = 0;
+                FigureShape.Height = 0;
+                FillColor = fillColor;
+            } else if (FigureShape is Polyline pl) 
+            {
+                pl.Points.Add(firstPoint);
+            }
+            StrokeColor = strokeColor;
+            FigureShape.StrokeEndLineCap = PenLineCap.Round;
+            FigureShape.StrokeStartLineCap = PenLineCap.Round;
+            FigureShape.StrokeLineJoin = PenLineJoin.Round;
             FigureShape.StrokeThickness = 4;
         }
 
@@ -69,9 +78,28 @@ namespace L2k_2023_11_23_Graphics2
 
         public void Modify(Point toPoint)
         {
+            if (FigureShape is Polyline)
+            {
+                ContinueLine(toPoint);
+            } else
+            {
+                ResizeFigure(toPoint);
+            }
+        }
+
+        private void ContinueLine(Point toPoint)
+        {
+            if (FigureShape is Polyline pl)
+            {
+                pl.Points.Add(toPoint);
+            }
+        }
+
+        private void ResizeFigure(Point toPoint)
+        {
             var r = new RectArea(firstPoint, toPoint);
             FigureShape.Margin = new Thickness(r.X, r.Y, 0, 0);
-            FigureShape.Width  = r.Width;
+            FigureShape.Width = r.Width;
             FigureShape.Height = r.Height;
         }
     }
