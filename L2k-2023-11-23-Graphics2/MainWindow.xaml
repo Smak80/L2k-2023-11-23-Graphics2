@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dialog="clr-namespace:Egorozh.ColorPicker.Dialog;assembly=Egorozh.ColorPicker.WPF.Dialog"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="grid1">
@@ -13,6 +14,8 @@
         <ToolBar>
             <Button x:Name="ToolEllipse" Content="Эллипс" Click="Tool_Click"/>
             <Button x:Name="ToolRectangle" Content="Прямоугольник" Click="Tool_Click"/>
+            <dialog:ColorPickerButton x:Name="BtnFillColor" Color="Green" Cursor="Hand" Width="24" Height="24"/>
+            <dialog:ColorPickerButton x:Name="BtnStrokeColor" Color="Blue" Cursor="Hand" Width="24" Height="24"/>
         </ToolBar>
         <Canvas Grid.Row="1" x:Name="MainCanvas" Background="White" MouseDown="MainCanvas_MouseDown" MouseUp="MainCanvas_MouseUp" MouseMove="MainCanvas_MouseMove">
         </Canvas>

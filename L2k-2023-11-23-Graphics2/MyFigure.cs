@@ -19,9 +19,22 @@ namespace L2k_2023_11_23_Graphics2
 
         private Point firstPoint;
 
+        public Brush FillColor
+        {
+            get => FigureShape.Fill;
+            set => FigureShape.Fill = value;
+        }
+        public Brush StrokeColor 
+        {
+            get => FigureShape.Stroke;
+            set => FigureShape.Stroke = value;
+        }
+
         public MyFigure(
             ToolType type,
-            Point topLeft
+            Point topLeft,
+            Brush fillColor,
+            Brush strokeColor
         ) {
             FigureShape = type switch
             {
@@ -29,11 +42,13 @@ namespace L2k_2023_11_23_Graphics2
                 ToolType.Rectangle => new Rectangle(),
                 _ => new Rectangle()
             };
+            
+            FillColor = fillColor;
+            StrokeColor = strokeColor;
+
             firstPoint = topLeft;
             FigureShape.Width = 0;
             FigureShape.Height = 0;
-            FigureShape.Fill = Brushes.Green;
-            FigureShape.Stroke = Brushes.Blue;
             FigureShape.StrokeThickness = 4;
         }
 

@@ -44,7 +44,13 @@ namespace L2k_2023_11_23_Graphics2
                 newFigure = currentFigure == null;
                 if (newFigure)
                 {
-                    fList.Add(new MyFigure(currentTool, point));
+                    fList.Add(new MyFigure(
+                        currentTool, 
+                        point, 
+                        new SolidColorBrush(BtnFillColor.Color),
+                        new SolidColorBrush(BtnStrokeColor.Color)
+                        )
+                    );
                     currentFigure = fList.Last();
                     MainCanvas.Children.Add(currentFigure.FigureShape);
                 }
