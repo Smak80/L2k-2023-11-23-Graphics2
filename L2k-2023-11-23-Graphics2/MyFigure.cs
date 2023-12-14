@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -49,11 +44,11 @@ namespace L2k_2023_11_23_Graphics2
             {
                 FigureShape.Width = 0;
                 FigureShape.Height = 0;
-                FillColor = fillColor;
             } else if (FigureShape is Polyline pl) 
             {
                 pl.Points.Add(firstPoint);
             }
+            FillColor = fillColor;
             StrokeColor = strokeColor;
             FigureShape.StrokeEndLineCap = PenLineCap.Round;
             FigureShape.StrokeStartLineCap = PenLineCap.Round;

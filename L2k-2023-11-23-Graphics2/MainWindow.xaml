@@ -12,6 +12,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <ToolBar>
+            <Button x:Name="Save" Content="Сохранить" Click="File_Save"/>
             <Button x:Name="ToolEllipse" Content="Эллипс" Click="Tool_Click"/>
             <Button x:Name="ToolRectangle" Content="Прямоугольник" Click="Tool_Click"/>
             <Button x:Name="ToolPen" Content="Ручка" Click="Tool_Click" />

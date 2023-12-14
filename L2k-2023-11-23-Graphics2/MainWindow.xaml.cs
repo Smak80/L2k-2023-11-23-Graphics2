@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,8 +46,8 @@ namespace L2k_2023_11_23_Graphics2
                 if (newFigure)
                 {
                     fList.Add(new MyFigure(
-                        currentTool, 
-                        point, 
+                        currentTool,
+                        point,
                         new SolidColorBrush(BtnFillColor.Color),
                         new SolidColorBrush(BtnStrokeColor.Color)
                         )
@@ -84,10 +85,12 @@ namespace L2k_2023_11_23_Graphics2
             if (sender == ToolRectangle)
             {
                 currentTool = ToolType.Rectangle;
-            } else if (sender == ToolEllipse)
+            }
+            else if (sender == ToolEllipse)
             {
                 currentTool = ToolType.Ellipse;
-            } else if (sender == ToolPen)
+            }
+            else if (sender == ToolPen)
             {
                 currentTool = ToolType.Pen;
             }
@@ -96,6 +99,57 @@ namespace L2k_2023_11_23_Graphics2
         private void MainCanvas_MouseLeave(object sender, MouseEventArgs e)
         {
             downPoint = null;
+        }
+
+        private void File_Save(object sender, RoutedEventArgs e)
+        {
+            var rtb = GetRenderTargetBitmapFromControl(MainCanvas);
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+
+            var result = new BitmapImage();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                encoder.Save(memoryStream);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                result.BeginInit();
+                result.CacheOption = BitmapCacheOption.OnLoad;
+                result.StreamSource = memoryStream;
+                result.EndInit();
+            }
+
+            BitmapEncoder pngEncoder = new PngBitmapEncoder();
+            pngEncoder.Frames.Add(BitmapFrame.Create(result));
+
+            using (var fs = File.OpenWrite("pic.png"))
+            {
+                pngEncoder.Save(fs);
+            }
+        }
+
+        private static BitmapSource GetRenderTargetBitmapFromControl(Visual targetControl, double dpi = 96d)
+        {
+            if (targetControl == null) return null;
+
+            var bounds = VisualTreeHelper.GetDescendantBounds(targetControl);
+            var renderTargetBitmap = new RenderTargetBitmap((int)(bounds.Width * dpi / 96.0),
+                                                            (int)(bounds.Height * dpi / 96.0),
+                                                            dpi,
+                                                            dpi,
+                                                            PixelFormats.Pbgra32);
+
+            var drawingVisual = new DrawingVisual();
+
+            using (var drawingContext = drawingVisual.RenderOpen())
+            {
+                var visualBrush = new VisualBrush(targetControl);
+                drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(), bounds.Size));
+            }
+
+            renderTargetBitmap.Render(drawingVisual);
+            return renderTargetBitmap;
         }
     }
 }
